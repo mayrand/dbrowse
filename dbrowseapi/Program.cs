@@ -1,3 +1,8 @@
+using System.Data;
+using System.Data.SqlClient;
+using Dapper;
+using dbrowseModels;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,29 +21,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/InformationSchema", async () =>
     {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
+        using IDbConnection connection =
+            new SqlConnection("Server=localhost;User=sa;Password=Passw0rd;Database=AdventureWorks;");
+
+        var info =
+            await connection.QueryAsync<InformationSchema>("SELECT TABLE_CATALOG AS CATALOG, TABLE_SCHEMA AS 'SCHEMA', TABLE_NAME AS NAME, TABLE_TYPE AS TYPE FROM INFORMATION_SCHEMA.TABLES order by TABLE_TYPE,TABLE_SCHEMA");
+        return info;
     })
-    .WithName("GetWeatherForecast")
+    .WithName("GetInformationSchema")
     .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int) (TemperatureC / 0.5556);
-}

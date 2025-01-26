@@ -1,6 +1,6 @@
 @dbrowseapi_HostAddress = http://localhost:5070
 
-GET {{dbrowseapi_HostAddress}}/weatherforecast/
+GET {{dbrowseapi_HostAddress}}/InformationSchema/
 Accept: application/json
 
 ###
