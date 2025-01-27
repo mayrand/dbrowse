@@ -2,6 +2,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Dapper;
 using dbrowseModels;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,16 +22,30 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/InformationSchema", async () =>
+app.MapGet("/InformationSchemaTables", async () =>
     {
         using IDbConnection connection =
             new SqlConnection("Server=localhost;User=sa;Password=Passw0rd;Database=AdventureWorks;");
 
         var info =
-            await connection.QueryAsync<InformationSchema>("SELECT TABLE_CATALOG AS CATALOG, TABLE_SCHEMA AS 'SCHEMA', TABLE_NAME AS NAME, TABLE_TYPE AS TYPE FROM INFORMATION_SCHEMA.TABLES order by TABLE_TYPE,TABLE_SCHEMA");
+            await connection.QueryAsync<InformationSchema>(
+                "SELECT TABLE_CATALOG AS CATALOG, TABLE_SCHEMA AS 'SCHEMA', TABLE_NAME AS NAME, TABLE_TYPE AS TYPE FROM INFORMATION_SCHEMA.TABLES order by TABLE_TYPE,TABLE_SCHEMA");
         return info;
     })
     .WithName("GetInformationSchema")
+    .WithOpenApi();
+
+app.MapGet("/InformationSchemaColumns/{tableName}", async ([FromRoute] string tableName) =>
+    {
+        using IDbConnection connection =
+            new SqlConnection("Server=localhost;User=sa;Password=Passw0rd;Database=AdventureWorks;");
+
+        var info =
+            await connection.QueryAsync<string>(
+                @"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tableName", new { tableName });
+        return info;
+    })
+    .WithName("GetInformationSchemaColumns")
     .WithOpenApi();
 
 app.Run();
