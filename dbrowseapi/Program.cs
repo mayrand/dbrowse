@@ -21,12 +21,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+using IDbConnection connection =
+    new SqlConnection(connectionString);
 
 app.MapGet("/InformationSchemaTables", async () =>
     {
-        using IDbConnection connection =
-            new SqlConnection("Server=localhost;User=sa;Password=Passw0rd;Database=AdventureWorks;");
-
         var info =
             await connection.QueryAsync<InformationSchema>(
                 "SELECT TABLE_CATALOG AS CATALOG, TABLE_SCHEMA AS 'SCHEMA', TABLE_NAME AS NAME, TABLE_TYPE AS TYPE FROM INFORMATION_SCHEMA.TABLES order by TABLE_TYPE,TABLE_SCHEMA");
@@ -37,9 +37,6 @@ app.MapGet("/InformationSchemaTables", async () =>
 
 app.MapGet("/InformationSchemaColumns/{tableName}", async ([FromRoute] string tableName) =>
     {
-        using IDbConnection connection =
-            new SqlConnection("Server=localhost;User=sa;Password=Passw0rd;Database=AdventureWorks;");
-
         var info =
             await connection.QueryAsync<string>(
                 @"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tableName", new { tableName });
