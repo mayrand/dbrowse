@@ -5,7 +5,7 @@ namespace HardkorowyKodsu;
 
 public partial class Form1 : Form
 {
-    private readonly string dbrowseapi_HostAddress = "http://localhost:5070";
+    private readonly string dbrowseapi_HostAddress = ConfigHelper.GetApiHostname();
     private readonly HttpClient _httpClient;
 
     public Form1()
