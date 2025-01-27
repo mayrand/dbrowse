@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbrowseapi", "dbrowseapi\db
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbrowseModels", "dbrowseModels\dbrowseModels.csproj", "{DC8400C2-C109-484A-9B25-6686ED6D1BF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardkorowyKodsu", "HardkorowyKodsu\HardkorowyKodsu.csproj", "{0603D3AF-0E17-4731-AD43-7CBD16397B98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{DC8400C2-C109-484A-9B25-6686ED6D1BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC8400C2-C109-484A-9B25-6686ED6D1BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC8400C2-C109-484A-9B25-6686ED6D1BF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0603D3AF-0E17-4731-AD43-7CBD16397B98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0603D3AF-0E17-4731-AD43-7CBD16397B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0603D3AF-0E17-4731-AD43-7CBD16397B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0603D3AF-0E17-4731-AD43-7CBD16397B98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
